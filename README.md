@@ -32,7 +32,7 @@ Make sure PHP is up and running with `pcntl` and `posix` extensions on board.
 ```sh
 git clone git@github.com:cuthbert-lwinga/php-threading.git
 ```
-## 🚀 How to Use
+## 🖥️ How to Use
 
 To harness the power of multithreading in PHP with this library, follow these simple steps:
 
@@ -41,8 +41,16 @@ To harness the power of multithreading in PHP with this library, follow these si
 Ensure that you include the necessary library files in your Php.
 
 ```php
-
+include_once("SharedMemoryHandler.php");
+include_once("Threads.php");
+use NameSpaceThreads\Threads;
 ```
+
+## 🌐 Define Your Threaded Function
+
+Create a function that you want to execute in parallel. Make sure it accepts parameters as an array. Here's an example function:
+
+```php
 function testbackground($param = 1) {
     sleep(1);
 
@@ -50,7 +58,25 @@ function testbackground($param = 1) {
         echo "\n $param EXECUTED\n";
     }
 }
+```
 
+## 📑 Add Tasks
 
+Use the Threads::addTask method to add tasks to the queue. Pass your function name and parameters as an array to this method. For example:
 
+```php
+for ($i = 0; $i < 7200; $i++) {
+    Threads::addTask("testbackground", [$i]);
+}
 
+```
+
+## Run Threads
+
+Finally, start the threads using the Threads::run method. Specify the number of threads you want to run concurrently as an argument. For example, to run 800 threads simultaneously
+
+```php
+Threads::run($Threads = 800);
+```
+
+With these simple steps, you can efficiently utilize multithreading in PHP to boost performance and handle concurrent tasks effectively. 🚀
