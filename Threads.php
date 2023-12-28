@@ -22,7 +22,7 @@ class Threads
            throw new \Exception("Nothing to execute, add functions to run on multi thread.");
            return;
        }
-       $default_size = 1000000;
+       $default_size = 2000000;
        $this->maxProcesses = $maxProcesses;
          $this->pid = SharedMemoryHandler::create('b', $default_size,$preserve_old = false);//preserve old just in case of zombie processes and should be cleared atfer init
          $this->allocateExecutionQueue();
@@ -236,9 +236,6 @@ public function killAllProcesses() {
         // only parent can
             if($this->parentPid == getmypid()){
                 $processes = $this->runningProcesses();
-                
-               
-
                 foreach ($processes as $pid => $value) {
                     while($this->isProcessRunning($pid)){
                         usleep(1000);
