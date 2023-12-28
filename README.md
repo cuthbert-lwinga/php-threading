@@ -22,6 +22,9 @@ Unlock threading prowess with the `Threads` class in the `NameSpaceThreads` name
 - **⚙️ Concurrency Control**: I've adopted a savvy concurrency control strategy using `fork()`. This approach clones data, facilitating simultaneous thread execution sans inter-thread chatter. The result? Blazing-fast, streamlined processing with jaw-dropping outcomes.
 - **🛠️ Resource Management**: Keeps a tight rein on resources to prevent leaks. As well as proper handling of pid termination.
 
+### 🔫 Error Handling
+- **⛔ Thread Collapse**: Despite the fact that threads may occasionally drop out of execution due to various reasons such as buggy functions and resource constraints, the threads operate independently of one another and continue to perform their assigned tasks with no communication between them.
+
 ## 📲 Installation and Usage
 
 Make sure PHP is up and running with `pcntl` and `posix` extensions on board.
