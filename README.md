@@ -38,9 +38,11 @@ To harness the power of multithreading in PHP with this library, follow these si
 
 ### Include the Files
 
-Ensure that you include the necessary library files in your PHP script. You can include them using PHP's `include` or `require` statements.
+Ensure that you include the necessary library files in your Php.
 
-php
+```php
+
+```
 function testbackground($param = 1) {
     sleep(1);
 
