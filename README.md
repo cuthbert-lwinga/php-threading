@@ -31,7 +31,7 @@ Make sure PHP is up and running with `pcntl` and `posix` extensions on board.
 
 ```sh
 git clone git@github.com:cuthbert-lwinga/php-threading.git
-
+```
 ## 🚀 How to Use
 
 To harness the power of multithreading in PHP with this library, follow these simple steps:
@@ -40,7 +40,7 @@ To harness the power of multithreading in PHP with this library, follow these si
 
 Ensure that you include the necessary library files in your PHP script. You can include them using PHP's `include` or `require` statements.
 
-```php
+php
 function testbackground($param = 1) {
     sleep(1);
 
