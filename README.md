@@ -48,7 +48,7 @@ use NameSpaceThreads\Threads;
 
 ## 🌐 Define Your Threaded Function
 
-Create a function that you want to execute in parallel. Make sure it accepts parameters as an array.For more information on function call conventions, you can refer to the [PHP `call_user_func` function documentation](https://www.php.net/manual/en/function.call-user-func.php) as we designed our library to follow the same conventions. Here's an example function:
+Create a function that you want to execute in parallel. Make sure it accepts parameters as an array. Here's an example function:
 
 ```php
 function testbackground($param = 1) {
@@ -62,7 +62,7 @@ function testbackground($param = 1) {
 
 ## 📑 Add Tasks
 
-Use the Threads::addTask method to add tasks to the queue. Pass your function name and parameters as an array to this method. For example:
+Use the Threads::addTask method to add tasks to the queue. Pass your function name and parameters as an array to this method. For more information on function call conventions, you can refer to the [PHP `call_user_func` function documentation](https://www.php.net/manual/en/function.call-user-func.php) as we designed our library to follow the same conventions.For example:
 
 ```php
 for ($i = 0; $i < 7200; $i++) {
