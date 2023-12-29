@@ -22,10 +22,61 @@ Unlock threading prowess with the `Threads` class in the `NameSpaceThreads` name
 - **⚙️ Concurrency Control**: I've adopted a savvy concurrency control strategy using `fork()`. This approach clones data, facilitating simultaneous thread execution sans inter-thread chatter. The result? Blazing-fast, streamlined processing with jaw-dropping outcomes.
 - **🛠️ Resource Management**: Keeps a tight rein on resources to prevent leaks. As well as proper handling of pid termination.
 
+### 🔫 Error Handling
+- **⛔ Thread Collapse**: Despite the fact that threads may occasionally drop out of execution due to various reasons such as buggy functions and resource constraints, the threads operate independently of one another and continue to perform their assigned tasks with no communication between them.
+
 ## 📲 Installation and Usage
 
 Make sure PHP is up and running with `pcntl` and `posix` extensions on board.
 
 ```sh
 git clone git@github.com:cuthbert-lwinga/php-threading.git
+```
+## 🖥️ How to Use
 
+To harness the power of multithreading in PHP with this library, follow these simple steps:
+
+### Include the Files
+
+Ensure that you include the necessary library files in your Php.
+
+```php
+include_once("SharedMemoryHandler.php");
+include_once("Threads.php");
+use NameSpaceThreads\Threads;
+```
+
+## 🌐 Define Your Threaded Function
+
+Create a function that you want to execute in parallel. Make sure it accepts parameters as an array. Here's an example function:
+
+```php
+function testbackground($param = 1) {
+    sleep(1);
+
+    if ($param % 1000 == 0) {
+        echo "\n $param EXECUTED\n";
+    }
+}
+```
+
+## 📑 Add Tasks
+
+Use the Threads::addTask method to add tasks to the queue. Pass your function name and parameters as an array to this method. For more information on function call conventions, you can refer to the [PHP `call_user_func` function documentation](https://www.php.net/manual/en/function.call-user-func.php) as we designed our library to follow the same conventions.For example:
+
+```php
+for ($i = 0; $i < 7200; $i++) {
+    Threads::addTask("testbackground", [$i]);
+}
+
+```
+
+## Run Threads
+
+Finally, start the threads using the Threads::run method. Specify the number of threads you want to run concurrently as an argument. For example, to run 800 threads simultaneously
+
+```php
+Threads::run($Threads = 800);
+```
+
+With these simple steps, you can efficiently utilize multithreading in PHP to boost performance and handle concurrent tasks effectively. 🚀
