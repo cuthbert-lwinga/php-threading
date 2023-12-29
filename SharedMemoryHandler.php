@@ -124,4 +124,24 @@ class SharedMemoryHandler {
 }
 
 
+// Create a shared memory block with a size of 100 bytes
+// $length = 8;
+// $uniqueHex = bin2hex(random_bytes($length / 2));
+// $shmId = SharedMemoryHandler::create($uniqueHex, 2);
+// // Write data to the shared memory block
+// // SharedMemoryHandler::write($shmId, "ab");
+// // SharedMemoryHandler::write($shmId, "ab");
+// // $shmId = SharedMemoryHandler::overwrite($shmId, "Cuthbert");
+
+
+// // Read data from the shared memory block
+// $data = SharedMemoryHandler::read($shmId);
+// echo "Data read from shared memory: $data\n";
+
+// // Delete and close the shared memory block
+// SharedMemoryHandler::delete($shmId);
+// SharedMemoryHandler::close($shmId);
+
+
+
 ?>

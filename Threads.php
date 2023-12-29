@@ -22,26 +22,34 @@ class Threads
            throw new \Exception("Nothing to execute, add functions to run on multi thread.");
            return;
        }
+       $this->parentPid = getmypid();
        $default_size = 2000000;
        $this->maxProcesses = $maxProcesses;
          $this->pid = SharedMemoryHandler::create('b', $default_size,$preserve_old = false);//preserve old just in case of zombie processes and should be cleared atfer init
+         $this->killAllProcesses($deleteSharedMem = false);
          $this->allocateExecutionQueue();
          $this->maxProcesses = count(Threads::$ExecutionQueueAllocation);
-         $this->parentPid = getmypid();
          $key = ftok(__FILE__, 'b');
          $this->semId = sem_get($key);
          $this->initProcesses();
      }
 
-    public static function run($threads = 2){
+    public static function run($threads = 2,$waitForoutput = true){
         $Threads = new Threads($threads);
-        $Threads->waitForAllProcessesToFinish();
-        Threads::$ExecutionQueueAllocation = [];
-        Threads::$ExecutionQueueAllocation = [];
+
+        if ($waitForoutput){
+            $Threads->waitForAllProcessesToFinish();
+            Threads::$ExecutionQueueAllocation = [];
+            Threads::$ExecutionQueueAllocation = [];
+        }else{
+            return $Threads;
+        }
 }
      public function __destruct(){
         // Delete and close the shared memory block
      }
+
+
 
      public function allocateExecutionQueue(){
         $i = 0;
@@ -194,7 +202,8 @@ class Threads
                 $index = $this->processindex($pid);
                 continue;
             }
-
+            // echo "\n\nindex $index\n\n";
+            // var_dump(Threads::$ExecutionQueueAllocation);
             if (count(Threads::$ExecutionQueueAllocation[$index])<1){
                 posix_kill($pid, SIGTERM); // kill thread, tasks allocated finished
             break; // finished 
@@ -214,7 +223,7 @@ class Threads
 }
 
 
-public function killAllProcesses() {
+public function killAllProcesses($deleteSharedMem = true) {
         // only parent can
     if($this->parentPid == getmypid()){
         $processes = $this->runningProcesses();
@@ -225,8 +234,12 @@ public function killAllProcesses() {
                         posix_kill($pid, SIGTERM); // kill signal
                     }
                 }
-                SharedMemoryHandler::delete($this->pid);
-                SharedMemoryHandler::close($this->pid);
+
+                SharedMemoryHandler::write($this->pid, "");
+                                if ($deleteSharedMem) {
+                                SharedMemoryHandler::delete($this->pid);
+                                SharedMemoryHandler::close($this->pid);
+                }
 
             }
         }
@@ -244,6 +257,20 @@ public function killAllProcesses() {
             }
              $this->killAllProcesses();
         }
+
+        public function activeLiveThreads() {
+        // only parent can
+            if($this->parentPid == getmypid()){
+                $processes = $this->runningProcesses();
+                foreach ($processes as $pid => $value) {
+                    while($this->isProcessRunning($pid)){
+                        return true;
+                    }
+                }
+            }
+             return false;
+        }
+
 
 }
 
